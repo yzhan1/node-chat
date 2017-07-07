@@ -4,17 +4,29 @@
   <meta charset="utf-8">
   <title>Node Messenger</title>
   <link rel="shortcut icon" href="/img/favicon.ico"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
+  <link rel="stylesheet" type="text/css" href="/fonts/fonts.css" />
 </head>
-<body>
-  <p>Welcome to the Node Messenger</p>
+<body class="chat">
+  <div class="chat__sidebar">
+    <div class="chat__sidebar__header">
+      <h3>People</h3>
+    </div>
+    
+    <div id="users"></div>
+  </div>
 
-  <ol id="messages"></ol>
+  <div class="chat__main">
+    <ol id="messages" class="chat__messages"></ol>
 
-  <form id="message-form">
-    <input name="message" type="text" placeholder="Message"/>
-    <button>Send</button>
-  </form>
-  <button id="send-location">Send Location</button>
+    <div class="chat__footer">
+      <form class="message__form" id="message-form">
+        <input class="input__form" name="message" type="text" placeholder="Message" autofocus autocomplete="off"/>
+        <button style="width:13%">Send</button>
+      </form>
+      <button id="send-location" style="margin-right:10px">Send Location</button>
+    </div>
+  </div>
   
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/libs/jquery-3.2.1.min.js"></script>
