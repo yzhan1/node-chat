@@ -39,6 +39,12 @@ button {
   background: none;
 }
 
+.button__leave:hover {
+  border: 2px solid #04a2ff;
+  color: #04a2ff;
+  background: none;
+}
+
 button:hover {
   border: none;
   box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);
