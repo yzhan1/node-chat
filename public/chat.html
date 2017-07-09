@@ -13,11 +13,18 @@
     <div class="chat__sidebar__header">
       <h3>Node Messenger</h3>
     </div>
+    <div class="chat__sidebar__subheader">
+      <h4>Users in current chat room</h4>
+    </div>
     
     <div id="users"></div>
   </div>
 
   <div class="chat__main">
+    <div class="chat__room__header">
+      <h3>Chat Room</h3>
+      <button class="button__leave" onclick="window.location.href='/'">Leave Room</button>
+    </div>
     <ol id="messages" class="chat__messages"></ol>
 
     <div class="chat__footer">
@@ -35,10 +42,24 @@
         <h4>{{from}}</h4>
         <span>{{createdAt}}</span>
       </div>
-      <div class="message__body">
+      <div class="message__body from-them">
         <p>{{text}}</p>
       </div>
     </li>
+    <div class="clear"></div>
+  </script>
+
+  <script id="message-template-own" type="text/template">
+    <li class="message" style="float:right">
+      <div class="message__title">
+        <h4>{{from}}</h4>
+        <span>{{createdAt}}</span>
+      </div>
+      <div class="message__body from-me">
+        <p>{{text}}</p>
+      </div>
+    </li>
+    <div class="clear"></div>
   </script>
 
   <script id="location-message-template" type="text/template">
@@ -47,7 +68,21 @@
         <h4>{{from}}</h4>
         <span>{{createdAt}}</span>
       </div>
-      <div class="message__body">
+      <div class="message__body from-them">
+        <p>
+          <a href="{{url}}" target="_blank">My current location</a>
+        </p>
+      </div>
+    </li>
+  </script>
+
+  <script id="location-message-template-self" type="text/template">
+    <li class="message" style="float:right">
+      <div class="message__title">
+        <h4>{{from}}</h4>
+        <span>{{createdAt}}</span>
+      </div>
+      <div class="message__body from-me">
         <p>
           <a href="{{url}}" target="_blank">My current location</a>
         </p>
@@ -59,6 +94,7 @@
   <script src="/js/libs/jquery-3.2.1.min.js"></script>
   <script src="/js/libs/moment.js"></script>
   <script src="/js/libs/mustache.js"></script>
+  <script src="/js/libs/deparam.js"></script>
   <script src="/js/chat.js"></script>
 </body>
 </html>

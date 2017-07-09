@@ -1,4 +1,5 @@
 const socket = io();
+let myId;
 
 function scrollToBottom(){
   const messages = jQuery('#messages');
@@ -15,16 +16,50 @@ function scrollToBottom(){
 };
 
 socket.on('connect', function(){
-  console.log('Connected to server');
+  const params = jQuery.deparam(window.location.search);
+
+  socket.emit('join', params, function(err){
+    if(err){
+      alert(err);
+      window.location.href = '/';
+    }else{
+      console.log('No error');
+    }
+  });
 });
 
 socket.on('disconnect', function(){
   console.log('Disconnect to server');
 });
 
-socket.on('newMessage', function(message){
+socket.on('updateUserList', function(users){
+  let ol = jQuery('<ol></ol>');
+
+  users.forEach(function(user){
+    ol.append(jQuery('<li></li>').text(user));
+  });
+
+  jQuery('#users').html(ol);
+});
+
+socket.on('newMessage', function(message, id){
   const formattedTime = moment(message.createdAt).format('h:mm a');
   const template = jQuery('#message-template').html();
+  
+  const html = Mustache.render(template, {
+    text: message.text,
+    from: message.from,
+    createdAt: formattedTime
+  });
+
+  jQuery('#messages').append(html);
+  scrollToBottom();
+});
+
+socket.on('newSelfMessage', function(message, id){
+  const formattedTime = moment(message.createdAt).format('h:mm a');
+  const template = jQuery('#message-template-own').html();
+  
   const html = Mustache.render(template, {
     text: message.text,
     from: message.from,
@@ -38,6 +73,19 @@ socket.on('newMessage', function(message){
 socket.on('newLocationMessage', function(message){
   const formattedTime = moment(message.createdAt).format('h:mm a');
   const template = jQuery('#location-message-template').html();
+  const html = Mustache.render(template, {
+    url: message.url,
+    from: message.from,
+    createdAt: formattedTime
+  });
+  
+  jQuery('#messages').append(html);
+  scrollToBottom();
+});
+
+socket.on('newSelfLocationMessage', function(message){
+  const formattedTime = moment(message.createdAt).format('h:mm a');
+  const template = jQuery('#location-message-template-self').html();
   const html = Mustache.render(template, {
     url: message.url,
     from: message.from,
